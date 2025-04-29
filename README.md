@@ -5,16 +5,19 @@
 **Pontos principais:**
 
 * **Client Side Rendering(CRS):** A minha ideia era usar CSR por questões de tempo.
-* **React-Router-v7:** Decidi ver as recomendações do React para iniciar um projeto com mais facilidade e percebi tarde demais que o React-Router-v7 como CRS continua necessitando de adaptações para fetchs e gestão de dados. Se fosse começar do zero teria utilizado Vite + react-router-dom ou Next.js.
+* **React-Router-v7 (RR7):**
+  * Decidi ver as recomendações do React para iniciar um projeto com mais facilidade e percebi tarde demais que o React-Router-v7 como CRS continua necessitando de adaptações para fetchs e gestão de dados.
+  * Baseado no **Remix** - RR7 == Remix3
+  * Focada em **SSR**
+  * Lançado em Dezembro de 2024 - falta um pouco de material na internet
+  * **clientAction não tem acesso a contextos** (não é um component), então foi necessário usar o localStorage muito mais do que eu gostaria
+  * Nunca tinha usando Remix ou essa versão do RR7
+  * Se fosse começar do zero teria utilizado **Vite + react-router-dom ou Next.js**.
 
-  Obs.:
-  1. react-router-v7 é focada em SSR;
-  2. Minha primeira vez usando essa versão do react-router
     
-* pode ser utilizado para CSR, mas é preciso se adapter
 * **Git issues:** Adicionei issues de melhorias e coisas que gostaria de ter feito diferente.
 * **Projeto pessoal?:** Caso eu seja autorizado pretendo manter esse projeto como pessoal para começar um portifolio.
----
+
 ## Stack
 - React.js
 - TypeScript
