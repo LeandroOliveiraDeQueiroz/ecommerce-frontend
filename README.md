@@ -1,87 +1,47 @@
-# Welcome to React Router!
+# Welcome!
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## Disclaimer
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+**Pontos principais:**
 
-## Features
+* **Client Side Rendering(CRS):** A minha ideia era usar CSR por questões de tempo.
+* **React-Router-v7:** Decidi ver as recomendações do React para iniciar um projeto com mais facilidade e percebi tarde demais que o React-Router-v7 como CRS continua necessitando de adaptações para fetchs e gestão de dados. Se fosse começar do zero teria utilizado Vite + react-router-dom ou Next.js.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
+  Obs.:
+  1. react-router-v7 é focada em SSR;
+  2. Minha primeira vez usando essa versão do react-router
+    
+* pode ser utilizado para CSR, mas é preciso se adapter
+* **Git issues:** Adicionei issues de melhorias e coisas que gostaria de ter feito diferente.
+* **Projeto pessoal?:** Caso eu seja autorizado pretendo manter esse projeto como pessoal para começar um portifolio.
 ---
+## Stack
+- React.js
+- TypeScript
+- TailwindCSS
+- Docker
 
-Built with ❤️ using React Router.
+## Run 🚀
+**Pode rodar local ou no Docker:**
+
+### Docker
+ Pre-requisto: Docker
+  #### Rodar:
+  ```
+  bash npm run docker-up
+  ```
+  #### O site estará rodando na porta 9000 do seu navegador:
+    
+  [http://localhost:9000/](http://localhost:9000/)
+
+### Na maquina:
+Pre-requisto: node - eu usei a versão v20.9.0
+
+- Instalar as dependecias:
+```
+bash npm run install
+```
+- Rodar:
+```
+bash npm run dev
+```
