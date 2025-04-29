@@ -1,0 +1,96 @@
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, } from "react";
+import type { PropsWithChildren } from 'react';
+import type { IFavoriteProductListContextData, } from "./types";
+import type { IFavoriteProductList } from "~/types";
+
+export const FavoriteProductListContext = createContext<IFavoriteProductListContextData>({
+    list: null,
+    update: () => { },
+    deleteList: () => { },
+    create: () => { },
+    get: () => { }
+});
+
+export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => {
+    const [list, setList] = useState<IFavoriteProductList | null>(null);
+
+    useEffect(() => {
+        const title = localStorage.getItem('title');
+        const description = localStorage.getItem('description');
+        const favoriteProducts = JSON.parse(localStorage.getItem('favorite_products') || "[]");
+
+        let favoriteProductsList: IFavoriteProductList | null = null;
+        if (title && description && favoriteProducts) {
+            favoriteProductsList = {
+                title,
+                description, favorite_products: favoriteProducts,
+                product_quantity: favoriteProducts.length
+            }
+
+            setList(favoriteProducts);
+        }
+    }, []);
+
+
+    const create = useCallback((title: string, description: string) => {
+        const favoriteProductsList: IFavoriteProductList = {
+            title,
+            description,
+            favorite_products: [],
+            product_quantity: 0
+        }
+
+        setList(favoriteProductsList);
+        localStorage.setItem('title', title)
+        localStorage.setItem('description', description)
+        localStorage.setItem('favorite_products', JSON.stringify([]))
+
+    }, []);
+
+    const get = useCallback((newList: IFavoriteProductList | null) => {
+        setList(newList);
+
+        if (newList) {
+            localStorage.setItem('title', newList.title)
+            localStorage.setItem('description', newList.description)
+            localStorage.setItem('favorite_products', JSON.stringify(newList.favorite_products))
+        }
+
+    }, []);
+
+    const update = useCallback((title: string, description: string) => {
+        setList((prevList) => {
+            if (!prevList)
+                return prevList
+
+            return { ...prevList, title, description }
+        })
+
+        localStorage.setItem('title', title)
+        localStorage.setItem('description', description)
+
+    }, []);
+
+    const deleteList = useCallback(() => {
+        setList(null)
+        localStorage.removeItem('title');
+        localStorage.removeItem('description');
+        localStorage.removeItem('favorite_products');
+    }, [])
+
+
+    const value = useMemo(() => ({
+        list, create, update, deleteList, get
+    }), [list, create, update, deleteList, get])
+
+    return (
+        <FavoriteProductListContext.Provider value={value}>
+            {children}
+        </FavoriteProductListContext.Provider>
+    );
+
+}
+
+export const useFavoriteProductListContext = () => {
+    return useContext(FavoriteProductListContext);
+}

@@ -1,8 +1,20 @@
-import { NavLink } from "react-router";
+import { useSnackbar } from "notistack";
+import { NavLink, useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 
 export function Header() {
-    const { isLogged, name, logOut } = useAuthContext();
+    const { isAuthenticated, userData, logOut } = useAuthContext();
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleLogout = () => {
+        navigate("/");
+
+        setTimeout(() => {
+            logOut();
+            enqueueSnackbar("Log out", { variant: "success" })
+        }, 500)
+    }
 
     return <header className="bg-blue-100 flex gap-4 p-3 pr-4 justify-between">
         <div>
@@ -10,11 +22,11 @@ export function Header() {
         </div>
         <div className="flex justify-between">
 
-            {isLogged ?
+            {isAuthenticated ?
                 <>
                     <NavLink to="/favorite-products" className="mr-8">Produtos favoritos</NavLink>
-                    <p className="mr-8">{name}</p>
-                    <button onClick={logOut} >Sair</button>
+                    <p className="mr-8">{userData?.name}</p>
+                    <button onClick={handleLogout} >Sair</button>
                 </>
                 :
                 <>

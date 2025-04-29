@@ -9,8 +9,13 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { Header } from "./components/header/header";
 import { AuthProvider } from "./contexts/auth/auth";
+import { Header } from "./components/header/header";
+import { Loading } from "./components/loading/loading";
+import { SnackbarProvider } from "notistack";
+import { FavoriteProductListProvider } from "./contexts/favoriteProductsList/favoriteProductsList";
+// import { Header } from "./components/header/header";
+// import { AuthProvider } from "./contexts/auth/auth";
 
 
 export const links: Route.LinksFunction = () => [
@@ -47,8 +52,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <AuthProvider>
-      <Header />
-      <Outlet />
+      <FavoriteProductListProvider>
+        <SnackbarProvider>
+          <Header />
+          <Outlet />
+        </SnackbarProvider>
+      </FavoriteProductListProvider>
     </AuthProvider>
   );
 }
@@ -80,4 +89,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       )}
     </main>
   );
+}
+
+
+export function HydrateFallback() {
+  return <Loading />;
 }

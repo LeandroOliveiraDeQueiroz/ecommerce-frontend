@@ -1,10 +1,14 @@
+import { useSnackbar } from "notistack";
 import { Navigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 
 export function PrivateRoute({ children }: React.PropsWithChildren) {
-    const { isLogged } = useAuthContext();
+    const { isAuthenticated } = useAuthContext();
+    const { enqueueSnackbar } = useSnackbar();
 
-    if (!isLogged) {
+    if (!isAuthenticated) {
+        enqueueSnackbar('Usuário não logado', { variant: 'warning' });
+
         return <Navigate to="/login" replace />
     }
 

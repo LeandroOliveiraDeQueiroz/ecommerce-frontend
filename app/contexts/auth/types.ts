@@ -1,11 +1,11 @@
+import type { ILoginData } from "~/services/auth/types";
+
 export interface AuthContextData {
-  isLogged: boolean;
-  name: string;
-  accessToken: string;
-  setLoggedUser: setLoggedUser;
+  isAuthenticated: boolean;
+  userData: TUser | null;
+  loading: boolean;
+  login: (param: TUser) => void;
   logOut: () => void;
 }
 
-export type setLoggedUser = (
-  param: Pick<AuthContextData, "name" | "accessToken">
-) => void;
+export type TUser = ILoginData;

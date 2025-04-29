@@ -10,7 +10,7 @@ const StyledButton = getStyledButton("blue-500", "white");
 
 export function Login() {
     const navigate = useNavigate();
-    const { setLoggedUser, isLogged } = useAuthContext();
+    const { setLoggedUser } = useAuthContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -40,9 +40,6 @@ export function Login() {
     const handleChangePassword = (value: string) => {
         setPassword(value)
     }
-
-    if (isLogged)
-        navigate("/")
 
     return (
         <div className="flex-1 flex flex-col justify-center items-center">
