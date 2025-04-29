@@ -18,14 +18,12 @@
 
 Aqui você pode descrever a arquitetura do seu sistema, os componentes principais e como eles interagem. Use diagramas, se necessário, para ilustrar o design.
 High-Level React Layers:
+
 ![image](https://github.com/user-attachments/assets/f771eb99-0898-48bd-ad9b-023a087dc411)
 
 Frontend 
 
 ![image](https://github.com/user-attachments/assets/4ede8ea1-5368-4bf3-a174-f26b2438eb5e)
-
-
-
 
 ## Stack
 - React.js
