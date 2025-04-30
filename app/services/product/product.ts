@@ -1,5 +1,5 @@
-import axios, { type AxiosResponse } from "axios";
-import type { IProduct } from "~/types";
+import axios, { type AxiosResponse } from 'axios';
+import type { IProduct } from '~/types';
 
 const ProductService = () => {
   const getProducts = () => {
@@ -7,6 +7,7 @@ const ProductService = () => {
   };
 
   const getProductsByIds = async (ids: number[]): Promise<IProduct[]> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<AxiosResponse<any, any>>[] = [];
     const products: IProduct[] = [];
 

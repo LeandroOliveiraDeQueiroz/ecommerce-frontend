@@ -1,10 +1,10 @@
-import axios from "axios";
-import type { IServiceError } from "~/types";
+import axios from 'axios';
+import type { IServiceError } from '~/types';
 
 export const handleServiceError = (error: unknown): IServiceError => {
   const serviceError: Partial<IServiceError> = {
     error: true,
-    message: "Erro inesperado. Tente novamente",
+    message: 'Erro inesperado. Tente novamente',
   };
 
   if (error instanceof axios.AxiosError && error.response?.data) {
@@ -14,13 +14,14 @@ export const handleServiceError = (error: unknown): IServiceError => {
   return serviceError as IServiceError;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isIServiceError = (error: any): error is IServiceError => {
   return (
-    typeof error === "object" &&
+    typeof error === 'object' &&
     error !== null &&
-    "message" in error &&
-    typeof error.message === "string" &&
-    "error" in error &&
-    typeof error.error === "boolean"
+    'message' in error &&
+    typeof error.message === 'string' &&
+    'error' in error &&
+    typeof error.error === 'boolean'
   );
 };

@@ -5,7 +5,6 @@ import favoriteProductsListService from "~/services/favoriteProductsList/favorit
 import { useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
-import { useAuthContext } from "~/contexts/auth/auth";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 
 export function meta({ }: Route.MetaArgs) {
@@ -18,9 +17,9 @@ export function meta({ }: Route.MetaArgs) {
 export async function clientAction({
     request,
 }: Route.ClientActionArgs) {
-    let formData = await request.formData();
-    let title = formData.get("title");
-    let description = formData.get("description");
+    const formData = await request.formData();
+    const title = formData.get("title");
+    const description = formData.get("description");
     const storedToken = localStorage.getItem('authToken');
 
     try {

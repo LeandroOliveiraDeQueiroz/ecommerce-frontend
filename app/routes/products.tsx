@@ -20,9 +20,9 @@ export function meta({ }: Route.MetaArgs) {
 export async function clientAction({
   request,
 }: Route.ClientActionArgs) {
-  let formData = await request.formData();
-  let productId = formData.get("productId");
-  let intent = formData.get("intent");
+  const formData = await request.formData();
+  const productId = formData.get("productId");
+  const intent = formData.get("intent");
   const storedToken = localStorage.getItem('authToken');
   console.log(productId, intent)
 

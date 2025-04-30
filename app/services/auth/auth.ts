@@ -1,7 +1,6 @@
-import axios from "axios";
-import type { ILoginData, ILoginParams, ISigninParams } from "./types";
-import type { IServiceError } from "~/types";
-import { handleServiceError } from "../utils/utils";
+import axios from 'axios';
+import type { ILoginData, ILoginParams, ISigninParams } from './types';
+import { handleServiceError } from '../utils/utils';
 
 const AuthService = () => {
   const signin = async ({ name, email, password }: ISigninParams) => {

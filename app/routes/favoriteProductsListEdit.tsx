@@ -19,9 +19,9 @@ export function meta({ }: Route.MetaArgs) {
 export async function clientAction({
     request,
 }: Route.ClientActionArgs) {
-    let formData = await request.formData();
-    let title = formData.get("title");
-    let description = formData.get("description");
+    const formData = await request.formData();
+    const title = formData.get("title");
+    const description = formData.get("description");
     const storedToken = localStorage.getItem('authToken');
     const intent = formData.get("intent");
 

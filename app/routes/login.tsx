@@ -1,8 +1,8 @@
 import { Login } from "~/pages/login/login";
 import type { Route } from "./+types/home";
 import authService from "~/services/auth/auth";
-import { Form, useNavigate } from "react-router";
-import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useSnackbar } from "notistack";
 import type { IFavoriteProductList } from "~/types";
@@ -32,9 +32,9 @@ const schema = yup.object().shape({
 export async function clientAction({
   request,
 }: Route.ClientActionArgs) {
-  let formData = await request.formData();
-  let email = formData.get("email");
-  let password = formData.get("password");
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
 
   try {
 

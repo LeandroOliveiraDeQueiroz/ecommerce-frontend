@@ -2,12 +2,11 @@ import { useCallback, useEffect } from "react";
 import type { Route } from "./+types/home";
 import { PrivateRoute } from "~/components-hoc/privateRoute/privateRoute";
 import { Loading } from "~/components/loading/loading";
-import { useAuthContext } from "~/contexts/auth/auth";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import { FavoriteProductsList } from "~/pages/favoriteProductsList/favoriteProductList";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import productService from "~/services/product/product";
-import type { IFavoriteProductList, IProduct } from "~/types";
+import type { IProduct } from "~/types";
 import { useRevalidator, useSubmit } from "react-router";
 import { useSnackbar } from "notistack";
 
@@ -21,9 +20,9 @@ export function meta({ }: Route.MetaArgs) {
 export async function clientAction({
     request,
 }: Route.ClientActionArgs) {
-    let formData = await request.formData();
-    let productId = formData.get("productId");
-    let intent = formData.get("intent");
+    const formData = await request.formData();
+    const productId = formData.get("productId");
+    const intent = formData.get("intent");
     const storedToken = localStorage.getItem('authToken');
     console.log(productId, intent)
 

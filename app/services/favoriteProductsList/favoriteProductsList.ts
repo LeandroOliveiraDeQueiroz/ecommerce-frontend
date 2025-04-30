@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 import type {
   IAddProductParams,
   ICreateParams,
   IDeleteParams,
   IGetParams,
-  IRemoveProductParams,
   IUpdateParams,
-} from "./types";
-import type { IFavoriteProductList } from "~/types";
-import { handleServiceError } from "../utils/utils";
+} from './types';
+import type { IFavoriteProductList } from '~/types';
+import { handleServiceError } from '../utils/utils';
 
 const FavoriteProductsListService = () => {
   const create = async ({ title, description, accessToken }: ICreateParams) => {

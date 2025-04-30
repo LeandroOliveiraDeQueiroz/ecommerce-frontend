@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router";
 import { ProductCatalog } from "~/components/productCatalog/productCatalog";
-import { useAuthContext } from "~/contexts/auth/auth";
-import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
-import productService from "~/services/product/product";
 import type { IProduct, IFavoriteProductList, IGetNavLinkStyle } from "~/types";
 
 interface IFavoriteProductsList {

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useEffect } from "react";
 import { useSnackbar } from "notistack";
-import type { IServiceError } from "~/types"
 import * as yup from 'yup'
 import { isIServiceError } from "~/services/utils/utils";
 
@@ -42,11 +41,11 @@ const schema = yup.object().shape({
 export async function clientAction({
   request,
 }: Route.ClientActionArgs) {
-  let formData = await request.formData();
-  let name = formData.get("name");
-  let email = formData.get("email");
-  let password = formData.get("password");
-  let confirmPassword = formData.get("confirmPassword");
+  const formData = await request.formData();
+  const name = formData.get("name");
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const confirmPassword = formData.get("confirmPassword");
 
   try {
 
