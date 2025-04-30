@@ -1,39 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router";
 import { ProductCatalog } from "~/components/productCatalog/productCatalog";
-import { getStyledButton } from "~/components/styledButton/styledButton";
 import { useAuthContext } from "~/contexts/auth/auth";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import productService from "~/services/product/product";
 import type { IProduct, IFavoriteProductList, IGetNavLinkStyle } from "~/types";
 
-const StyledButton = getStyledButton("red-500", "white");
-
-export function FavoriteProductsList({ products, list, isFavorite }: { products?: IProduct[], list: IFavoriteProductList | null, isFavorite: (id: number) => boolean }) {
-    // const { accessToken } = useAuthContext();
-    // const [list, setList] = useState<IFavoriteProductList>();
-    // const [products, setProducts] = useState<IProduct[]>([]);
-    // const [loading, setLoading] = useState(true);
-
-    // const getFavoriteProducts = useCallback(async () => {
-    //     try {
-    //         const list: IFavoriteProductList | null = await favoriteProductsListService.read({ accessToken });
-    //         if (list) {
-    //             const products: IProduct[] = await productService.getProductsByIds(list.favorite_products);
-    //             setList(list);
-    //             setProducts(products);
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }, []);
+interface IFavoriteProductsList {
+    products?: IProduct[];
+    list: IFavoriteProductList | null;
+    isFavorite: (id: number) => boolean;
+    onFavorite: (product_id: number, isFavorite: boolean) => void
+}
 
 
-    // useEffect(() => {
-    //     getFavoriteProducts();
-    // }, [getFavoriteProducts]);
+export function FavoriteProductsList({ products, list, isFavorite, onFavorite }: IFavoriteProductsList) {
 
     return (
         <div className="flex-1 flex flex-col">
@@ -46,15 +27,11 @@ export function FavoriteProductsList({ products, list, isFavorite }: { products?
                 }
             </div>
             <div className="flex-1 flex flex-col pl-3 pr-3">
-                <ProductCatalog products={products || []} isFavorite={isFavorite} />
+                <ProductCatalog products={products || []} isFavorite={isFavorite} onFavorite={onFavorite} />
             </div>
         </div>
     )
 }
-
-
-{/* <StyledButton>Deletar</StyledButton> */ }
-
 
 const getEditStyle = ({ isPending, }: IGetNavLinkStyle) => {
     if (isPending)

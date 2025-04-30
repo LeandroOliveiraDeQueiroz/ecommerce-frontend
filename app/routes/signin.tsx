@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useEffect } from "react";
 import { useSnackbar } from "notistack";
+import * as yup from 'yup'
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -14,6 +15,28 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 
+const schema = yup.object().shape({
+  name: yup.
+    string()
+    .required("Nome é obrigatório")
+    .min(1, "Nome deve ter pelo menos 1 caracter")
+    .max(256, "Nome deve ter no máximo 256 caracteres"),
+  email: yup
+    .string()
+    .required("Email é obrigatório")
+    .email("Email não válido"),
+  password: yup
+    .string()
+    .required('Senha é obrigatório')
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
+    .max(256, "Senha deve ter no máximo 256 caracteres").required(),
+  confirmPassword: yup
+    .string()
+    .required('Confirma senha é obrigatório')
+    .oneOf([yup.ref('password')], 'Confirma senha deve ser igual a senha'),
+});
+
+
 export async function clientAction({
   request,
 }: Route.ClientActionArgs) {
@@ -21,12 +44,22 @@ export async function clientAction({
   let name = formData.get("name");
   let email = formData.get("email");
   let password = formData.get("password");
+  let confirmPassword = formData.get("confirmPassword");
 
   try {
-    console.log(email, password)
+
+    await schema.validate({ name, email, password, confirmPassword })
+    console.log(email, password);
+
     const signed = await authService.signin({ email, name, password });
     return { success: signed, redirectTo: '/login' }
   } catch (error) {
+
+    if (error instanceof yup.ValidationError) {
+      return { error: true, message: error.message }
+    }
+
+
     return { error: true, }
 
   }
@@ -52,9 +85,10 @@ export default function SigninPage({
       enqueueSnackbar('Cadastro realizado com sucesso!', { variant: 'success' });
       navigate(actionData.redirectTo);
     } else if (actionData?.error) {
-      console.log("Error:", actionData?.error)
+      enqueueSnackbar(actionData.message || "Erro inesperado", { variant: 'error' });
+      console.error("Error:", actionData?.error)
     }
-  }, [actionData, navigate]);
+  }, [actionData, navigate, enqueueSnackbar]);
 
   return <Signin />;
 }

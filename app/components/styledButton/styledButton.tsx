@@ -1,14 +1,9 @@
-export function getStyledButton(primary: string, background: string) {
-    const className =
-        `border-${primary} bg-${background} text-${primary} border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-${primary} hover:text-${background}`;
+export function BlueButton(props: React.JSX.IntrinsicElements["button"]) {
+    const className = `border-blue-400 bg-white text-blue-400 border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-blue-400 hover:text-white`;
+    return <button className={className} {...props} />;
+}
 
-    //Closure
-    const StyledButton = (props: React.JSX.IntrinsicElements["button"]) => {
-        return <button className={className}
-            {...props}
-        />
-    }
+export function RedButton(props: React.JSX.IntrinsicElements["button"]) {
+    return <button className="border-red-400 bg-white text-red-400 border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-red-400 hover:text-white" {...props} />;
 
-
-    return StyledButton;
 }

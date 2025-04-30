@@ -1,8 +1,10 @@
 import axios from "axios";
 import type {
+  IAddProductParams,
   ICreateParams,
   IDeleteParams,
   IGetParams,
+  IRemoveProductParams,
   IUpdateParams,
 } from "./types";
 import type { IFavoriteProductList } from "~/types";
@@ -86,11 +88,58 @@ const FavoriteProductsListService = () => {
     return false;
   };
 
+  const addProduct = async ({ productId, accessToken }: IAddProductParams) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_MONOLITH_API}/favorite-products-list/add-product`,
+      {
+        product_id: productId,
+      },
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const removeProduct = async ({
+    productId,
+    accessToken,
+  }: IAddProductParams) => {
+    const response = await axios.post(
+      `${
+        import.meta.env.VITE_MONOLITH_API
+      }/favorite-products-list/remove-product`,
+      {
+        product_id: productId,
+      },
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return true;
+    }
+
+    return false;
+  };
+
   return {
     create,
     read,
     update,
     deleteList,
+    addProduct,
+    removeProduct,
   };
 };
 

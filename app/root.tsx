@@ -14,8 +14,6 @@ import { Header } from "./components/header/header";
 import { Loading } from "./components/loading/loading";
 import { SnackbarProvider } from "notistack";
 import { FavoriteProductListProvider } from "./contexts/favoriteProductsList/favoriteProductsList";
-// import { Header } from "./components/header/header";
-// import { AuthProvider } from "./contexts/auth/auth";
 
 
 export const links: Route.LinksFunction = () => [

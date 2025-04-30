@@ -9,6 +9,7 @@ export interface IProduct {
 
 export interface IFavoriteProduct extends IProduct {
   isFavorite?: boolean;
+  onFavorite: (productId: number, isFavorite: boolean) => void;
 }
 
 export interface IFavoriteProductList {

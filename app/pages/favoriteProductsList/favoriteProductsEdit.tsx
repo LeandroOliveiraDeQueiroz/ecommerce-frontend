@@ -1,9 +1,7 @@
 import { Form } from "react-router";
 import { FavoriteProductsFormFields } from "~/components/favoriteProductsFormFields/favoriteProductsFormFields";
-import { getStyledButton } from "~/components/styledButton/styledButton";
+import { BlueButton, RedButton } from "~/components/styledButton/styledButton";
 import type { IFavoriteProductList } from "~/types";
-const BlueButton = getStyledButton("blue-500", "white");
-const RedButton = getStyledButton("red-500", "white");
 
 export function FavoriteProductsListEdit({ description, title }: Pick<IFavoriteProductList, "title" | "description">) {
     return (

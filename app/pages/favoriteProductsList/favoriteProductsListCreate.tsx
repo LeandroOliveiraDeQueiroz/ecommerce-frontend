@@ -1,7 +1,6 @@
 import { Form, useNavigate } from "react-router";
 import { FavoriteProductsFormFields } from "~/components/favoriteProductsFormFields/favoriteProductsFormFields";
-import { getStyledButton } from "~/components/styledButton/styledButton";
-const StyledButton = getStyledButton("blue-500", "white");
+import { BlueButton } from "~/components/styledButton/styledButton";
 
 export function FavoriteProductsListCreate() {
     return (
@@ -9,7 +8,7 @@ export function FavoriteProductsListCreate() {
             <Form method="post" className="p-4 border-2 rounded-md border-gray-500">
                 <FavoriteProductsFormFields />
                 <div className="text-center">
-                    <StyledButton type="submit">Criar</StyledButton>
+                    <BlueButton type="submit">Criar</BlueButton>
                 </div>
             </Form>
         </div>

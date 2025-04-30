@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, } from "react";
 import type { PropsWithChildren } from 'react';
-import type { IFavoriteProductListContextData, } from "./types";
+import type { IFavoriteProductListContextData, THandleFavoriteProductParam, } from "./types";
 import type { IFavoriteProductList } from "~/types";
 
 export const FavoriteProductListContext = createContext<IFavoriteProductListContextData>({
@@ -8,7 +8,9 @@ export const FavoriteProductListContext = createContext<IFavoriteProductListCont
     update: () => { },
     deleteList: () => { },
     create: () => { },
-    get: () => { }
+    get: () => { },
+    addFavoriteProduct: () => { },
+    deleteFavoriteProduct: () => { }
 });
 
 export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => {
@@ -78,10 +80,32 @@ export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => 
         localStorage.removeItem('favorite_products');
     }, [])
 
+    const addFavoriteProduct = useCallback(({ favorite_product_id }: THandleFavoriteProductParam) => {
+        setList((prevList) => {
+            if (!prevList) return prevList;
+
+            const favoriteCopies = [...prevList.favorite_products]
+            favoriteCopies.push(favorite_product_id)
+            localStorage.setItem('favorite_products', JSON.stringify(favoriteCopies))
+
+            return { ...prevList, favorite_products: favoriteCopies };
+        })
+    }, [])
+
+    const deleteFavoriteProduct = useCallback(({ favorite_product_id }: THandleFavoriteProductParam) => {
+        setList((prevList) => {
+            if (!prevList) return prevList;
+
+            const favoriteCopies = prevList.favorite_products.filter((id) => id !== favorite_product_id);
+            localStorage.setItem('favorite_products', JSON.stringify(favoriteCopies))
+
+            return { ...prevList, favorite_products: favoriteCopies };
+        })
+    }, []);
 
     const value = useMemo(() => ({
-        list, create, update, deleteList, get
-    }), [list, create, update, deleteList, get])
+        list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct
+    }), [list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct])
 
     return (
         <FavoriteProductListContext.Provider value={value}>
