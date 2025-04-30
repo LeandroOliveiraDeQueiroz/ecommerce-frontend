@@ -40,7 +40,6 @@ const AuthService = () => {
       );
 
       if (response.status === 200) {
-        //TODO return user
         return response.data;
       }
 
