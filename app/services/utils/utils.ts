@@ -1,10 +1,13 @@
 import axios from 'axios';
 import type { IServiceError } from '~/types';
 
-export const handleServiceError = (error: unknown): IServiceError => {
+export const handleServiceError = (
+  error: unknown,
+  message?: string
+): IServiceError => {
   const serviceError: Partial<IServiceError> = {
     error: true,
-    message: 'Erro inesperado. Tente novamente',
+    message: message ? message : 'Erro inesperado. Tente novamente',
   };
 
   if (error instanceof axios.AxiosError && error.response?.data) {

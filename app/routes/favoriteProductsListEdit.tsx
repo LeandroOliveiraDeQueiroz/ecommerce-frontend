@@ -6,6 +6,8 @@ import { useCallback, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
+import { isIServiceError } from "~/services/utils/utils";
+import * as yup from 'yup'
 
 type TClearContext = { action: "update", title: string, description: string } | { action: "delete", title: undefined, description: undefined }
 
@@ -16,6 +18,16 @@ export function meta({ }: Route.MetaArgs) {
     ];
 }
 
+const schema = yup.object().shape({
+    title: yup
+        .string()
+        .required("Título é obrigatório"),
+    description: yup
+        .string()
+        .required('Descrição é obrigatório')
+});
+
+
 export async function clientAction({
     request,
 }: Route.ClientActionArgs) {
@@ -25,53 +37,51 @@ export async function clientAction({
     const storedToken = localStorage.getItem('authToken');
     const intent = formData.get("intent");
 
-    if (intent === "delete") {
-        return await deleteAction(storedToken);
-    } else if (intent === "update") {
-        return await updateAction(title, description, storedToken);
-    } else {
-        console.error("Unknown intention")
+    if (!storedToken) {
+        return { error: true, message: "Usuário não logado" }
+    }
+
+    try {
+        if (intent === "delete") {
+            return await deleteAction(storedToken);
+        } else if (intent === "update") {
+            return await updateAction(title, description, storedToken);
+        } else {
+            throw Error('No existent intent');
+        }
+    } catch (error) {
+        if (error instanceof yup.ValidationError) {
+            return { error: true, message: error.message }
+        }
+
+        if (isIServiceError(error)) {
+            return { error: true, message: error.message }
+        }
+
+        console.error(error);
+        return { error: true, message: "Erro inesperado" }
     }
 
 }
 
-async function updateAction(title: string, description: string, storedToken: string | null) {
-    try {
-        if (!storedToken) {
-            return { error: true }
-        }
+async function updateAction(title: string, description: string, storedToken: string) {
+    await schema.validate({ title, description });
 
-        console.log(title, description)
-
-        const success = await favoriteProductsListService.update({ title, description, accessToken: storedToken });
-        if (success) {
-
-            return { success: true, redirectTo: '/favorite-products', message: "Lista editada com sucesso", action: "update", title, description }
-        } else {
-            return { error: true }
-        }
-    } catch (error) {
-        return { error: true, }
-
+    const success = await favoriteProductsListService.update({ title, description, accessToken: storedToken });
+    if (!success) {
+        throw Error(`${success}`);
     }
+
+    return { success: true, redirectTo: '/favorite-products', message: "Lista editada com sucesso", action: "update", title, description }
 }
 
-async function deleteAction(storedToken: string | null) {
-    try {
-        if (!storedToken) {
-            return { error: true }
-        }
-        const success = await favoriteProductsListService.deleteList({ accessToken: storedToken });
-        if (success) {
-
-            return { success: true, redirectTo: '/', message: "Lista deleta com sucesso", action: "delete" }
-        } else {
-            return { error: true }
-        }
-    } catch (error) {
-        return { error: true, }
-
+async function deleteAction(storedToken: string) {
+    const success = await favoriteProductsListService.deleteList({ accessToken: storedToken });
+    if (!success) {
+        throw Error(`${success}`);
     }
+
+    return { success: true, redirectTo: '/', message: "Lista deleta com sucesso", action: "delete" }
 }
 
 export default function FavoriteProductsListEditPage({
@@ -97,7 +107,7 @@ export default function FavoriteProductsListEditPage({
             enqueueSnackbar(actionData.message, { variant: 'success' });
             navigate(actionData.redirectTo);
         } else if (actionData?.error) {
-            console.log("Error:", actionData?.error)
+            enqueueSnackbar(actionData.message, { variant: 'error' });
         }
     }, [actionData, navigate, clearContext
     ]);

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useSnackbar } from "notistack";
-import type { IFavoriteProductList } from "~/types";
+import type { IFavoriteProductList, IServiceError } from "~/types";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import * as yup from 'yup'
@@ -37,15 +37,11 @@ export async function clientAction({
   const password = formData.get("password");
 
   try {
-
-    console.log(email, password)
-
     await schema.validate({ email, password });
-
     const userData = await authService.login({ email, password });
 
     if (!userData) {
-      return { error: true }
+      throw { error: true, message: "Erro ao logar" } as IServiceError
     }
 
     const list: IFavoriteProductList | null = await favoriteProductsListService.read({ accessToken: userData?.accessToken });
@@ -61,6 +57,7 @@ export async function clientAction({
       return { error: true, message: error.message }
     }
 
+    console.error(error);
     return { error: true, message: "Erro inesperado" }
   }
 }
@@ -92,11 +89,6 @@ export default function LoginPage({
       console.error("Error:", actionData?.error)
     }
   }, [actionData, navigate]);
-
-
-  if (actionData) {
-    console.log("action", actionData)
-  }
 
   return (
     <Login />

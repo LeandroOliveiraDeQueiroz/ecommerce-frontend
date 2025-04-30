@@ -24,7 +24,6 @@ export async function clientAction({
   const productId = formData.get("productId");
   const intent = formData.get("intent");
   const storedToken = localStorage.getItem('authToken');
-  console.log(productId, intent)
 
   if (!storedToken) {
     return { error: true, message: "Usuário não logado" }
@@ -37,8 +36,7 @@ export async function clientAction({
     } else if (intent === "deleteProduct") {
       return await deleteFavoriteProduct({ storedToken, productId });
     } else {
-      console.error('No existent intent')
-      throw Error();
+      throw Error('No existent intent');
     }
 
   } catch (error) {
@@ -46,6 +44,7 @@ export async function clientAction({
       return { error: true, message: error.message }
     }
 
+    console.error(error);
     return { error: true, message: "Erro inesperado" }
   }
 
@@ -61,8 +60,7 @@ async function addFavoriteProduct({ storedToken, productId }: IHandleIntentParam
   const success = await favoriteProductsListService.addProduct({ accessToken: storedToken, productId: parserProductId });
 
   if (!success) {
-    console.error("success:", success)
-    throw Error();
+    throw Error(`${success}`);
   }
 
   return {
@@ -76,21 +74,24 @@ async function deleteFavoriteProduct({ storedToken, productId }: IHandleIntentPa
   const success = await favoriteProductsListService.removeProduct({ accessToken: storedToken, productId: parserProductId });
 
   if (!success) {
-    console.error("success:", success)
-    throw Error();
+    throw Error(`${success}`);
   }
 
   return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
 }
 
-export const clientLoader = async (): Promise<{ products: IProduct[] }> => {
+export const clientLoader = async (): Promise<{ products: IProduct[], error?: boolean, message?: string }> => {
   try {
-
     const response = await productService.getProducts();
     const products: IProduct[] = response.data;
-    return { products };
+    return { products, };
   } catch (error) {
-    return { products: [] }
+    if (isIServiceError(error)) {
+      return { products: [], error: true, message: error.message }
+    }
+
+    console.error(error);
+    return { products: [], error: true, message: "Erro inesperado ao carregar dados" }
   }
 }
 
@@ -99,11 +100,16 @@ export function HydrateFallback() {
 }
 
 export default function Products({ loaderData, actionData }: Route.ComponentProps) {
-  const { products, } = loaderData;
+  const { products, error, message } = loaderData;
   const { list, addFavoriteProduct, deleteFavoriteProduct } = useFavoriteProductListContext();
   const submit = useSubmit();
   const { enqueueSnackbar } = useSnackbar();
-  console.log("products:", products)
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(message, { variant: 'error' });
+    }
+  }, [error, message, enqueueSnackbar])
 
   useEffect(() => {
     if (actionData?.error) {

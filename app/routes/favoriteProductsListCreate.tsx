@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
+import { isIServiceError } from "~/services/utils/utils";
+import * as yup from 'yup'
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -13,6 +15,15 @@ export function meta({ }: Route.MetaArgs) {
         { name: "Lista de todos os produtos", content: "List of the products" },
     ];
 }
+
+const schema = yup.object().shape({
+    title: yup
+        .string()
+        .required("Título é obrigatório"),
+    description: yup
+        .string()
+        .required('Descrição é obrigatório')
+});
 
 export async function clientAction({
     request,
@@ -22,22 +33,30 @@ export async function clientAction({
     const description = formData.get("description");
     const storedToken = localStorage.getItem('authToken');
 
+    if (!storedToken) {
+        return { error: true, message: "Usuário não logado" }
+    }
+
     try {
-        if (!storedToken) {
-            return { error: true }
-        }
-
-        console.log(title, description)
-
+        await schema.validate({ title, description });
         const success = await favoriteProductsListService.create({ title, description, accessToken: storedToken });
-        if (success) {
-            return { success: true, redirectTo: '/favorite-products', title, description }
-        } else {
-            return { error: true }
-        }
-    } catch (error) {
-        return { error: true, }
 
+        if (!success) {
+            throw Error(`${success}`);
+        }
+
+        return { success: true, redirectTo: '/favorite-products', title, description }
+    } catch (error) {
+        if (error instanceof yup.ValidationError) {
+            return { error: true, message: error.message }
+        }
+
+        if (isIServiceError(error)) {
+            return { error: true, message: error.message }
+        }
+
+        console.error(error);
+        return { error: true, message: "Erro inesperado" }
     }
 }
 
@@ -54,7 +73,7 @@ export default function FavoriteProductsListCreatePage({
             enqueueSnackbar('Lista criada com sucesso', { variant: 'success' });
             navigate(actionData.redirectTo);
         } else if (actionData?.error) {
-            console.log("Error:", actionData?.error)
+            enqueueSnackbar(actionData.message, { variant: 'error' });
         }
     }, [actionData, navigate, create]);
 

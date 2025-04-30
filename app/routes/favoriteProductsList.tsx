@@ -9,6 +9,7 @@ import productService from "~/services/product/product";
 import type { IProduct } from "~/types";
 import { useRevalidator, useSubmit } from "react-router";
 import { useSnackbar } from "notistack";
+import { isIServiceError } from "~/services/utils/utils";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -22,15 +23,22 @@ export async function clientAction({
 }: Route.ClientActionArgs) {
     const formData = await request.formData();
     const productId = formData.get("productId");
-    const intent = formData.get("intent");
     const storedToken = localStorage.getItem('authToken');
-    console.log(productId, intent)
 
     if (!storedToken) {
         return { error: true, message: "Erro inesperado. Saia e logue novamente" }
     }
 
-    return await deleteFavoriteProduct({ storedToken, productId });
+    try {
+        return await deleteFavoriteProduct({ storedToken, productId });
+    } catch (error) {
+        if (isIServiceError(error)) {
+            return { error: true, message: error.message }
+        }
+
+        console.error(error);
+        return { error: true, message: "Erro inesperado" }
+    }
 }
 
 interface IHandleIntentParams {
@@ -39,20 +47,14 @@ interface IHandleIntentParams {
 }
 
 async function deleteFavoriteProduct({ storedToken, productId }: IHandleIntentParams) {
-    try {
+    const parserProductId = parseInt(productId);
+    const success = await favoriteProductsListService.removeProduct({ accessToken: storedToken, productId: parserProductId });
 
-        const parserProductId = parseInt(productId);
-
-        const success = await favoriteProductsListService.removeProduct({ accessToken: storedToken, productId: parserProductId });
-        if (success) {
-            return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
-        } else {
-            return { error: true }
-        }
-    } catch (error) {
-        return { error: true, }
-
+    if (!success) {
+        throw Error(`${success}`);
     }
+
+    return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
 }
 
 export const clientLoader = async ({ }: Route.ClientLoaderArgs) => {
@@ -60,13 +62,18 @@ export const clientLoader = async ({ }: Route.ClientLoaderArgs) => {
 
     try {
         if (!favoriteProducts) {
-            return { error: true }
+            return { error: true, message: "Cache erro, logue novamente" }
         }
 
         const products: IProduct[] = await productService.getProductsByIds(favoriteProducts);
         return { products };
     } catch (error) {
-        return { products: [] }
+        if (isIServiceError(error)) {
+            return { products: [], error: true, message: error.message }
+        }
+
+        console.error(error);
+        return { products: [], error: true, message: "Erro inesperado ao carregar dados" }
     }
 }
 
@@ -75,11 +82,17 @@ export function HydrateFallback() {
 }
 
 export default function FavoriteProductsPage({ loaderData, actionData }: Route.ComponentProps) {
+    const { products, error, message } = loaderData;
     const { list, deleteFavoriteProduct } = useFavoriteProductListContext();
     const { enqueueSnackbar } = useSnackbar();
     const submit = useSubmit();
     const { revalidate } = useRevalidator();
-    const { products } = loaderData;
+
+    useEffect(() => {
+        if (error) {
+            enqueueSnackbar(message, { variant: 'error' });
+        }
+    }, [error, message, enqueueSnackbar])
 
     useEffect(() => {
         if (actionData?.error) {

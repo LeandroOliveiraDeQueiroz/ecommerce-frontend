@@ -48,7 +48,6 @@ export async function clientAction({
   const confirmPassword = formData.get("confirmPassword");
 
   try {
-
     await schema.validate({ name, email, password, confirmPassword })
 
     const signed = await authService.signin({ email, name, password });
@@ -63,6 +62,7 @@ export async function clientAction({
       return { error: true, message: error.message }
     }
 
+    console.error(error);
     return { error: true, message: "Erro inesperado" }
   }
 }
