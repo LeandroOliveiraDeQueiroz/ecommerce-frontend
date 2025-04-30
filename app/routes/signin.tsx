@@ -5,7 +5,9 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useEffect } from "react";
 import { useSnackbar } from "notistack";
+import type { IServiceError } from "~/types"
 import * as yup from 'yup'
+import { isIServiceError } from "~/services/utils/utils";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -49,7 +51,6 @@ export async function clientAction({
   try {
 
     await schema.validate({ name, email, password, confirmPassword })
-    console.log(email, password);
 
     const signed = await authService.signin({ email, name, password });
     return { success: signed, redirectTo: '/login' }
@@ -59,9 +60,11 @@ export async function clientAction({
       return { error: true, message: error.message }
     }
 
+    if (isIServiceError(error)) {
+      return { error: true, message: error.message }
+    }
 
-    return { error: true, }
-
+    return { error: true, message: "Erro inesperado" }
   }
 }
 
@@ -86,7 +89,6 @@ export default function SigninPage({
       navigate(actionData.redirectTo);
     } else if (actionData?.error) {
       enqueueSnackbar(actionData.message || "Erro inesperado", { variant: 'error' });
-      console.error("Error:", actionData?.error)
     }
   }, [actionData, navigate, enqueueSnackbar]);
 

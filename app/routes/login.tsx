@@ -9,6 +9,7 @@ import type { IFavoriteProductList } from "~/types";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import * as yup from 'yup'
+import { isIServiceError } from "~/services/utils/utils";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -56,8 +57,11 @@ export async function clientAction({
       return { error: true, message: error.message }
     }
 
-    return { error: true, message: "Email ou senha incorreta" }
+    if (isIServiceError(error)) {
+      return { error: true, message: error.message }
+    }
 
+    return { error: true, message: "Erro inesperado" }
   }
 }
 

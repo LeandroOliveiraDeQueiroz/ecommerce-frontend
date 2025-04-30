@@ -1,42 +1,54 @@
 import axios from "axios";
 import type { ILoginData, ILoginParams, ISigninParams } from "./types";
+import type { IServiceError } from "~/types";
+import { handleServiceError } from "../utils/utils";
 
 const AuthService = () => {
   const signin = async ({ name, email, password }: ISigninParams) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_MONOLITH_API}/user/signin`,
-      {
-        name,
-        email,
-        password,
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_MONOLITH_API}/user/signin`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        return true;
       }
-    );
 
-    if (response.status === 200) {
-      return true;
+      return false;
+    } catch (error) {
+      const serviceError = handleServiceError(error);
+      throw serviceError;
     }
-
-    return false;
   };
 
   const login = async ({
     email,
     password,
   }: ILoginParams): Promise<ILoginData | null> => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_MONOLITH_API}/user/login`,
-      {
-        email,
-        password,
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_MONOLITH_API}/user/login`,
+        {
+          email,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        //TODO return user
+        return response.data;
       }
-    );
 
-    if (response.status === 200) {
-      //TODO return user
-      return response.data;
+      return null;
+    } catch (error) {
+      const serviceError = handleServiceError(error);
+      throw serviceError;
     }
-
-    return null;
   };
 
   return {

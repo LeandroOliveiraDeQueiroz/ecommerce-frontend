@@ -10,7 +10,8 @@ export const FavoriteProductListContext = createContext<IFavoriteProductListCont
     create: () => { },
     get: () => { },
     addFavoriteProduct: () => { },
-    deleteFavoriteProduct: () => { }
+    deleteFavoriteProduct: () => { },
+    clear: () => { }
 });
 
 export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => {
@@ -29,7 +30,7 @@ export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => 
                 product_quantity: favoriteProducts.length
             }
 
-            setList(favoriteProducts);
+            setList(favoriteProductsList);
         }
     }, []);
 
@@ -103,9 +104,14 @@ export const FavoriteProductListProvider = ({ children }: PropsWithChildren) => 
         })
     }, []);
 
+    const clear = useCallback(() => {
+        setList(null);
+        localStorage.clear();
+    }, [])
+
     const value = useMemo(() => ({
-        list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct
-    }), [list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct])
+        list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct, clear
+    }), [list, create, update, deleteList, get, addFavoriteProduct, deleteFavoriteProduct, clear])
 
     return (
         <FavoriteProductListContext.Provider value={value}>

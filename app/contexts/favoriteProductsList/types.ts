@@ -8,6 +8,7 @@ export interface IFavoriteProductListContextData {
   get: (list: IFavoriteProductList) => void;
   addFavoriteProduct: (param: THandleFavoriteProductParam) => void;
   deleteFavoriteProduct: (param: THandleFavoriteProductParam) => void;
+  clear: () => void;
 }
 
 export type THandleFavoriteProductParam = {

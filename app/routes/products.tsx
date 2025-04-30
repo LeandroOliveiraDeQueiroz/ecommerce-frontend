@@ -8,6 +8,7 @@ import { useCallback, useEffect } from "react";
 import { useSubmit } from "react-router";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import { useSnackbar } from "notistack";
+import { isIServiceError } from "~/services/utils/utils";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -29,12 +30,23 @@ export async function clientAction({
     return { error: true, message: "Usuário não logado" }
   }
 
-  if (intent === "addProduct") {
-    return await addFavoriteProduct({ storedToken, productId });
-  } else if (intent === "deleteProduct") {
-    return await deleteFavoriteProduct({ storedToken, productId });
-  } else {
-    console.error('No existent intent')
+  try {
+
+    if (intent === "addProduct") {
+      return await addFavoriteProduct({ storedToken, productId });
+    } else if (intent === "deleteProduct") {
+      return await deleteFavoriteProduct({ storedToken, productId });
+    } else {
+      console.error('No existent intent')
+      throw Error();
+    }
+
+  } catch (error) {
+    if (isIServiceError(error)) {
+      return { error: true, message: error.message }
+    }
+
+    return { error: true, message: "Erro inesperado" }
   }
 
 }
@@ -45,38 +57,30 @@ interface IHandleIntentParams {
 }
 
 async function addFavoriteProduct({ storedToken, productId }: IHandleIntentParams) {
-  try {
-    const parserProductId = parseInt(productId);
-    const success = await favoriteProductsListService.addProduct({ accessToken: storedToken, productId: parserProductId });
-    if (success) {
-      return {
-        success: true, message: "Produto adicionado com sucesso", method: "add", productId: parserProductId
-      }
-    } else {
+  const parserProductId = parseInt(productId);
+  const success = await favoriteProductsListService.addProduct({ accessToken: storedToken, productId: parserProductId });
 
-      return { error: true }
-    }
-  } catch (error) {
-    return { error: true, }
-
+  if (!success) {
+    console.error("success:", success)
+    throw Error();
   }
+
+  return {
+    success: true, message: "Produto adicionado com sucesso", method: "add", productId: parserProductId
+  }
+
 }
 
 async function deleteFavoriteProduct({ storedToken, productId }: IHandleIntentParams) {
-  try {
+  const parserProductId = parseInt(productId);
+  const success = await favoriteProductsListService.removeProduct({ accessToken: storedToken, productId: parserProductId });
 
-    const parserProductId = parseInt(productId);
-
-    const success = await favoriteProductsListService.removeProduct({ accessToken: storedToken, productId: parserProductId });
-    if (success) {
-      return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
-    } else {
-      return { error: true }
-    }
-  } catch (error) {
-    return { error: true, }
-
+  if (!success) {
+    console.error("success:", success)
+    throw Error();
   }
+
+  return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
 }
 
 export const clientLoader = async (): Promise<{ products: IProduct[] }> => {

@@ -8,9 +8,9 @@ export function FavoriteProductsListEdit({ description, title }: Pick<IFavoriteP
         <div className="flex-1 flex flex-col justify-center items-center">
             <Form method="post" className="p-4 border-2 rounded-md border-gray-500">
                 <FavoriteProductsFormFields title={title} description={description} />
-                <div className="text-center">
-                    <BlueButton name="intent" value="update" type="submit">Editar</BlueButton>
+                <div className="flex justify-between">
                     <RedButton name="intent" value="delete" type="submit">Excluir</RedButton>
+                    <BlueButton name="intent" value="update" type="submit">Editar</BlueButton>
                 </div>
             </Form>
         </div>

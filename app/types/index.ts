@@ -24,3 +24,8 @@ export interface IGetNavLinkStyle {
   isPending: boolean;
   isTransitioning: boolean;
 }
+
+export interface IServiceError {
+  error: true;
+  message: string;
+}

@@ -24,7 +24,7 @@ export function Signin() {
                     </div>
                     <div>
                         <StyledInputLabel>Confirmar senha</StyledInputLabel>
-                        <StyledInput name="confirmPassword" />
+                        <StyledInput name="confirmPassword" type="password" />
                     </div>
                     <div className="text-center">
                         <BlueButton type="submit">Criar</BlueButton>

@@ -1,3 +1,6 @@
+import { StyledInput } from "../styledInput/styledInput"
+import { StyledInputLabel } from "../styledInputLabel/styledInputLabel"
+import { StyledTextArea } from "../styledTextArea/styledTextArea"
 import type { IFavoriteProductsFormProps } from "./types"
 
 export function FavoriteProductsFormFields({ description, title }: IFavoriteProductsFormProps) {
@@ -6,12 +9,12 @@ export function FavoriteProductsFormFields({ description, title }: IFavoriteProd
         <>
             <div>
                 <div>
-                    <label>Título</label>
-                    <input defaultValue={title || ""} type="text" name="title" />
+                    <StyledInputLabel>Título</StyledInputLabel>
+                    <StyledInput defaultValue={title || ""} type="text" name="title" />
                 </div>
                 <div>
-                    <label>Descrição</label>
-                    <textarea defaultValue={description || ""} name="description" />
+                    <StyledInputLabel>Descrição</StyledInputLabel>
+                    <StyledTextArea defaultValue={description || ""} name="description" />
                 </div>
             </div>
         </>

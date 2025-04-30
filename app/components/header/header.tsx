@@ -1,10 +1,12 @@
 import { useSnackbar } from "notistack";
 import { NavLink, useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
+import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 
 export function Header() {
     const { isAuthenticated, userData, logOut } = useAuthContext();
     const navigate = useNavigate();
+    const { clear } = useFavoriteProductListContext();
     const { enqueueSnackbar } = useSnackbar();
 
     const handleLogout = () => {
@@ -12,6 +14,7 @@ export function Header() {
 
         setTimeout(() => {
             logOut();
+            clear();
             enqueueSnackbar("Log out", { variant: "success" })
         }, 500)
     }
