@@ -25,33 +25,79 @@ Frontend
 
 ![image](https://github.com/user-attachments/assets/1e6ab4d0-bb27-4db6-a659-6b5e9eaafc6e)
 
-## Stack
-- React.js
-- TypeScript
-- TailwindCSS
-- Docker
+---
 
-## Run 🚀
-**Pode rodar local ou no Docker:**
+## Stack <a name="stack"></a>
+
+Nesta seção, liste as tecnologias, linguagens de programação, frameworks e bibliotecas utilizadas no seu projeto.
+
+* Linguagem de Programação: TypeScript
+* Framework: React
+* Outras Tecnologias: Docker, TailwindCSS
+
+[Voltar ao Índice](#índice) | [Voltar ao Disclaimer](#disclaimer)
+
+---
+
+## Run 🚀 <a name="run"></a>
 
 ### Docker
- Pre-requisto: Docker
-  #### Rodar:
-  ```
-  bash npm run docker-up
-  ```
-  #### O site estará rodando na porta 9000 do seu navegador:
-    
-  [http://localhost:9000/](http://localhost:9000/)
 
-### Na maquina:
-Pre-requisto: node - eu usei a versão v20.9.0
+**Pré-requisitos:**
 
-- Instalar as dependecias:
-```
-bash npm run install
-```
-- Rodar:
-```
-bash npm run dev
-```
+* NodeJS, Docker
+
+**Instalação:**
+
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/LeandroOliveiraDeQueiroz/ecommerce-frontend.git
+    cd ecommerce-frontend
+    ```
+2.  Configure as variáveis de ambiente em modo de desenvolvimento:
+    ```
+    # Exemplo de arquivo .env
+    # copiar keys de .env.example
+    ```
+
+**Execução:**
+
+* Para executar o projeto em modo de desenvolvimento:
+    ```bash
+    npm run docker-up
+    ```
+
+O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](http://localhost:9000/)
+
+### Local
+
+**Pré-requisitos:**
+
+* NodeJS (eu usei a versão v20.9.0)
+
+**Instalação:**
+
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/LeandroOliveiraDeQueiroz/ecommerce-frontend.git
+    cd ecommerce-frontend
+    ```
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+3.  Configure as variáveis de ambiente em modo de desenvolvimento:
+    ```
+    # Exemplo de arquivo .env
+    # copiar keys de .env.example
+    ```
+
+**Execução:**
+
+* Para executar o projeto em modo de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
+
+[Voltar ao Índice](#índice) | [Voltar ao Disclaimer](#disclaimer)
