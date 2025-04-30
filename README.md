@@ -113,5 +113,6 @@ O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](
     ```bash
     npm run dev
     ```
+O site estará rodando na porta 5173 do seu navegador: http://localhost:5173/
 
 [Voltar ao Índice](#índice) | [Voltar ao Disclaimer](#disclaimer) | [Voltar ao System Design](#system-design) | [Voltar ao Stack](#stack)
