@@ -23,7 +23,7 @@ High-Level React Layers:
 
 Frontend 
 
-![image](https://github.com/user-attachments/assets/4ede8ea1-5368-4bf3-a174-f26b2438eb5e)
+![image](https://github.com/user-attachments/assets/1e6ab4d0-bb27-4db6-a659-6b5e9eaafc6e)
 
 ## Stack
 - React.js
