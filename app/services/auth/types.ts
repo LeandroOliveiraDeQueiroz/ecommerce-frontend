@@ -1,4 +1,4 @@
-import type { IFavoriteProductList } from "~/types";
+import type { IFavoriteProductList } from '~/types';
 
 export interface ILoginParams {
   email: string;
@@ -11,7 +11,7 @@ export interface ILoginData {
   favoriteProductsList?: IFavoriteProductList;
 }
 
-export interface ISigninParams {
+export interface ISignUpParams {
   name: string;
   email: string;
   password: string;

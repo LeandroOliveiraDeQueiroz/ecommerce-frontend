@@ -33,7 +33,7 @@ export function Header() {
                 </>
                 :
                 <>
-                    <NavLink to="/signin" className="mr-8">Sign in</NavLink>
+                    <NavLink to="/signup" className="mr-8">Sign in</NavLink>
                     <NavLink to="/login">Login</NavLink>
                 </>
             }

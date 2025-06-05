@@ -1,9 +1,9 @@
 import axios from 'axios';
-import type { ILoginData, ILoginParams, ISigninParams } from './types';
+import type { ILoginData, ILoginParams, ISignUpParams } from './types';
 import { handleServiceError } from '../utils/utils';
 
 const AuthService = () => {
-  const signin = async ({ name, email, password }: ISigninParams) => {
+  const signUp = async ({ name, email, password }: ISignUpParams) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_MONOLITH_API}/user/signin`,
@@ -51,7 +51,7 @@ const AuthService = () => {
 
   return {
     login,
-    signin,
+    signUp,
   };
 };
 

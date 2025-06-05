@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import { isIServiceError } from "~/services/utils/utils";
 import * as yup from 'yup'
+import { favoriteProductsListSchema } from "~/validators/favoriteList";
 
 type TClearContext = { action: "update", title: string, description: string } | { action: "delete", title: undefined, description: undefined }
 
@@ -17,16 +18,6 @@ export function meta({ }: Route.MetaArgs) {
         { name: "Lista de todos os produtos", content: "List of the products" },
     ];
 }
-
-const schema = yup.object().shape({
-    title: yup
-        .string()
-        .required("Título é obrigatório"),
-    description: yup
-        .string()
-        .required('Descrição é obrigatório')
-});
-
 
 export async function clientAction({
     request,
@@ -65,7 +56,7 @@ export async function clientAction({
 }
 
 async function updateAction(title: string, description: string, storedToken: string) {
-    await schema.validate({ title, description });
+    await favoriteProductsListSchema.validate({ title, description });
 
     const success = await favoriteProductsListService.update({ title, description, accessToken: storedToken });
     if (!success) {

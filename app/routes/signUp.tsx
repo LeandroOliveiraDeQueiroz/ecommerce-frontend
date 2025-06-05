@@ -1,12 +1,13 @@
-import { Signin } from "~/pages/signin/signin";
+import { SignUp } from "~/pages/signUp/signUp";
 import type { Route } from "./+types/home";
 import authService from "~/services/auth/auth";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "~/contexts/auth/auth";
 import { useEffect } from "react";
 import { useSnackbar } from "notistack";
-import * as yup from 'yup'
 import { isIServiceError } from "~/services/utils/utils";
+import { signUpSchema } from "~/validators/signUp"
+import * as yup from 'yup'
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -14,29 +15,6 @@ export function meta({ }: Route.MetaArgs) {
     { name: "Cadastrar", content: "Pagina de cadastro" },
   ];
 }
-
-
-const schema = yup.object().shape({
-  name: yup.
-    string()
-    .required("Nome é obrigatório")
-    .min(1, "Nome deve ter pelo menos 1 caracter")
-    .max(256, "Nome deve ter no máximo 256 caracteres"),
-  email: yup
-    .string()
-    .required("Email é obrigatório")
-    .email("Email não válido"),
-  password: yup
-    .string()
-    .required('Senha é obrigatório')
-    .min(6, "Senha deve ter pelo menos 6 caracteres")
-    .max(256, "Senha deve ter no máximo 256 caracteres").required(),
-  confirmPassword: yup
-    .string()
-    .required('Confirma senha é obrigatório')
-    .oneOf([yup.ref('password')], 'Confirma senha deve ser igual a senha'),
-});
-
 
 export async function clientAction({
   request,
@@ -48,9 +26,9 @@ export async function clientAction({
   const confirmPassword = formData.get("confirmPassword");
 
   try {
-    await schema.validate({ name, email, password, confirmPassword })
+    await signUpSchema.validate({ name, email, password, confirmPassword })
 
-    const signed = await authService.signin({ email, name, password });
+    const signed = await authService.signUp({ email, name, password });
     return { success: signed, redirectTo: '/login' }
   } catch (error) {
 
@@ -67,7 +45,7 @@ export async function clientAction({
   }
 }
 
-export default function SigninPage({
+export default function SignUpPage({
   actionData,
 }: Route.ComponentProps) {
   const navigate = useNavigate();
@@ -91,5 +69,5 @@ export default function SigninPage({
     }
   }, [actionData, navigate, enqueueSnackbar]);
 
-  return <Signin />;
+  return <SignUp />;
 }

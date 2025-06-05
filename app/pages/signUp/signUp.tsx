@@ -3,7 +3,7 @@ import { BlueButton } from "~/components/styledButton/styledButton";
 import { StyledInput } from "~/components/styledInput/styledInput";
 import { StyledInputLabel } from "~/components/styledInputLabel/styledInputLabel";
 
-export function Signin() {
+export function SignUp() {
 
     return (
         <div className="flex-1 flex flex-col justify-center items-center">

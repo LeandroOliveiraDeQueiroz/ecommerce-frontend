@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import { isIServiceError } from "~/services/utils/utils";
 import * as yup from 'yup'
+import { favoriteProductsListSchema } from "~/validators/favoriteList";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -15,15 +16,6 @@ export function meta({ }: Route.MetaArgs) {
         { name: "Lista de todos os produtos", content: "List of the products" },
     ];
 }
-
-const schema = yup.object().shape({
-    title: yup
-        .string()
-        .required("Título é obrigatório"),
-    description: yup
-        .string()
-        .required('Descrição é obrigatório')
-});
 
 export async function clientAction({
     request,
@@ -38,7 +30,7 @@ export async function clientAction({
     }
 
     try {
-        await schema.validate({ title, description });
+        await favoriteProductsListSchema.validate({ title, description });
         const success = await favoriteProductsListService.create({ title, description, accessToken: storedToken });
 
         if (!success) {
