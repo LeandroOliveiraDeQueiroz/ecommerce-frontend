@@ -14,7 +14,7 @@ type TClearContext = { action: "update", title: string, description: string } | 
 
 export function meta({ }: Route.MetaArgs) {
     return [
-        { title: "Luizalabs Criar lista de Produtos favoritos" },
+        { title: "E-commerce - Criar lista de Produtos favoritos" },
         { name: "Lista de todos os produtos", content: "List of the products" },
     ];
 }

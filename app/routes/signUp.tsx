@@ -11,7 +11,7 @@ import * as yup from 'yup'
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "Luizalabs Cadastro" },
+    { title: "E-commerce - Cadastro" },
     { name: "Cadastrar", content: "Pagina de cadastro" },
   ];
 }

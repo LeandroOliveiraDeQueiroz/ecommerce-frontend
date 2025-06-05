@@ -12,7 +12,7 @@ import { isIServiceError } from "~/services/utils/utils";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "Luizalabs Produtos" },
+    { title: "E-commerce - Produtos" },
     { name: "Lista de todos os produtos", content: "List of the products" },
   ];
 }

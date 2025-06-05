@@ -1,34 +1,37 @@
-# teste-tecnico-luiza-labs-frontend
+# e-commerce-frontend
 
 ## Índice
 
-* [Disclaimer](#disclaimer)
-* [System Design](#system-design)
-* [Stack](#stack)
-* [Run](#run)
+- [Disclaimer](#disclaimer)
+- [System Design](#system-design)
+- [Stack](#stack)
+- [Run](#run)
 
 ## Disclaimer <a name="disclaimer"></a>
 
 **Pontos principais:**
-* **Multiplos cliques:** o site não lida bem com "double-clicks" - 2 request são feitos
-* **Git Issues:** Crie para futuras melhorias ou features.
-* **Client Side Rendering(CRS):** A minha ideia era usar CSR por questões de tempo.
-* **React-Router-v7 (RR7):**
-  * Decidi ver as recomendações do React para iniciar um projeto com mais facilidade e percebi tarde demais que o React-Router-v7 como CRS continua necessitando de adaptações para fetchs e gestão de dados.
-  * Não gostei da gestão de dados com useEffect.
-  * Baseado no **Remix** - RR7 == Remix3 - Focada em **SSR**
-  * Lançado em Dezembro de 2024 - falta um pouco de material na internet
-  * **clientAction não tem acesso a contextos** (não é um component), então foi necessário usar o localStorage muito mais do que eu gostaria
-  * Nunca tinha usando Remix ou essa versão do RR7
-  * Se fosse fosse fazer de novo teria utilizado **Vite + react-router-dom ou Next.js**.
+
+- **Multiplos cliques:** o site não lida bem com "double-clicks" - 2 request são feitos
+- **Git Issues:** Crie para futuras melhorias ou features.
+- **Client Side Rendering(CRS):** A minha ideia era usar CSR por questões de tempo.
+- **React-Router-v7 (RR7):**
+
+  - Decidi ver as recomendações do React para iniciar um projeto com mais facilidade e percebi tarde demais que o React-Router-v7 como CRS continua necessitando de adaptações para fetchs e gestão de dados.
+  - Não gostei da gestão de dados com useEffect.
+  - Baseado no **Remix** - RR7 == Remix3 - Focada em **SSR**
+  - Lançado em Dezembro de 2024 - falta um pouco de material na internet
+  - **clientAction não tem acesso a contextos** (não é um component), então foi necessário usar o localStorage muito mais do que eu gostaria
+  - Nunca tinha usando Remix ou essa versão do RR7
+  - Se fosse fosse fazer de novo teria utilizado **Vite + react-router-dom ou Next.js**.
 
   [Voltar ao Índice](#índice).
- 
+
   [Ir para System Design](#system-design) | [Ir para Stack](#stack) | [Ir para Run](#run)
 
 ---
 
 ## System Design <a name="system-design"></a>
+
 High-Level React Layers:
 
 ![image](https://github.com/user-attachments/assets/f771eb99-0898-48bd-ad9b-023a087dc411)
@@ -45,9 +48,9 @@ Frontend:
 
 Nesta seção, liste as tecnologias, linguagens de programação, frameworks e bibliotecas utilizadas no seu projeto.
 
-* Linguagem de Programação: TypeScript
-* Framework: React
-* Outras Tecnologias: Docker, TailwindCSS
+- Linguagem de Programação: TypeScript
+- Framework: React
+- Outras Tecnologias: Docker, TailwindCSS
 
 [Voltar ao Índice](#índice) | [Voltar ao Disclaimer](#disclaimer) | [Voltar ao System Design](#system-design)
 
@@ -59,7 +62,7 @@ Nesta seção, liste as tecnologias, linguagens de programação, frameworks e b
 
 **Pré-requisitos:**
 
-* NodeJS, Docker
+- NodeJS, Docker
 
 **Instalação:**
 
@@ -76,10 +79,10 @@ Nesta seção, liste as tecnologias, linguagens de programação, frameworks e b
 
 **Execução:**
 
-* Para executar o projeto em modo de desenvolvimento:
-    ```bash
-    npm run docker-up
-    ```
+- Para executar o projeto em modo de desenvolvimento:
+  ```bash
+  npm run docker-up
+  ```
 
 O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](http://localhost:9000/)
 
@@ -87,7 +90,7 @@ O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](
 
 **Pré-requisitos:**
 
-* NodeJS (eu usei a versão v20.9.0)
+- NodeJS (eu usei a versão v20.9.0)
 
 **Instalação:**
 
@@ -97,6 +100,7 @@ O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](
     cd ecommerce-frontend
     ```
 2.  Instale as dependências:
+
     ```bash
     npm install
     ```
@@ -109,9 +113,9 @@ O site estará rodando na porta 9000 do seu navegador: [http://localhost:9000/](
 
 **Execução:**
 
-* Para executar o projeto em modo de desenvolvimento:
-    ```bash
-    npm run dev
-    ```
+- Para executar o projeto em modo de desenvolvimento:
+  ```bash
+  npm run dev
+  ```
 
 [Voltar ao Índice](#índice) | [Voltar ao Disclaimer](#disclaimer) | [Voltar ao System Design](#system-design) | [Voltar ao Stack](#stack)
