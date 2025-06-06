@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly and matches snapshot 1`] = `
+<div>
+  <div
+    class="flex-1 flex flex-col justify-center items-center"
+  >
+    <div
+      class="p-4 border-2 rounded-md border-gray-500"
+    >
+      <h1
+        class="text-2xl m-auto mt-3 mb-3 text-center"
+      >
+        Login
+      </h1>
+      <form
+        action="/login"
+        data-discover="true"
+        method="post"
+      >
+        <div>
+          <label
+            class="block mb-1  text-gray-900 dark:text-white"
+          >
+            Email
+          </label>
+          <input
+            class="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="email"
+            type="email"
+          />
+        </div>
+        <div>
+          <label
+            class="block mb-1  text-gray-900 dark:text-white"
+          >
+            Senha
+          </label>
+          <input
+            class="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="password"
+            type="password"
+          />
+        </div>
+        <div
+          class="text-center"
+        >
+          <button
+            class="border-blue-400 bg-white text-blue-400 border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-blue-400 hover:text-white"
+            type="submit"
+          >
+            Logar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

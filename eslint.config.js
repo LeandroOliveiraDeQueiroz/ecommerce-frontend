@@ -20,6 +20,11 @@ export default defineConfig([
     extends: ['js/recommended'],
   },
   {
+    files: ['**/*.{js,mjs,cjs}'],
+    env: { node: true },
+  },
+
+  {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: { globals: globals.browser },
   },
