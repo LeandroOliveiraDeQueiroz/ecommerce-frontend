@@ -1,13 +1,7 @@
 import { NavLink } from "react-router";
 import { ProductCatalog } from "~/components/productCatalog/productCatalog";
-import type { IProduct, IFavoriteProductList, IGetNavLinkStyle } from "~/types";
-
-interface IFavoriteProductsList {
-    products?: IProduct[];
-    list: IFavoriteProductList | null;
-    isFavorite: (id: number) => boolean;
-    onFavorite: (product_id: number, isFavorite: boolean) => void
-}
+import type { IGetNavLinkStyle } from "~/types";
+import type { IFavoriteProductsList } from "./types";
 
 
 export function FavoriteProductsList({ products, list, isFavorite, onFavorite }: IFavoriteProductsList) {
@@ -22,7 +16,7 @@ export function FavoriteProductsList({ products, list, isFavorite, onFavorite }:
                     <NavLink to="/favorite-products/create" className={getCreateStyle}>Criar</NavLink>
                 }
             </div>
-            <div className="flex-1 flex flex-col pl-3 pr-3">
+            <div className="flex-1 flex flex-col pl-3 pr-3 mt-4">
                 <ProductCatalog products={products || []} isFavorite={isFavorite} onFavorite={onFavorite} />
             </div>
         </div>
@@ -31,9 +25,9 @@ export function FavoriteProductsList({ products, list, isFavorite, onFavorite }:
 
 const getEditStyle = ({ isPending, }: IGetNavLinkStyle) => {
     if (isPending)
-        return (("inline-block border-blue-500 border-2 rounded-md px-4 py-2 transition-colors duration-300 bg-blue-500 text-white mr-10"))
+        return (("inline-block border-blue-500 border-2 rounded-md px-4 py-2 transition-colors duration-300 bg-blue-500 text-white"))
 
-    return ("inline-block border-blue-500 bg-white text-blue-500 border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-blue-500 hover:text-white mr-10")
+    return ("inline-block border-blue-500 bg-white text-blue-500 border-2 rounded-md px-4 py-2 transition-colors duration-300 hover:bg-blue-500 hover:text-white")
 }
 
 const getCreateStyle = ({ isPending, }: IGetNavLinkStyle) => {

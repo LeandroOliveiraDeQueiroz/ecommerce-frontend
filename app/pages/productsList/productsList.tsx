@@ -1,11 +1,5 @@
-import type { IProduct } from "~/types";
 import { ProductCatalog } from "~/components/productCatalog/productCatalog";
-
-interface IProductsLit {
-  products: IProduct[];
-  isFavorite?: (id: number) => boolean;
-  onFavorite: (product_id: number, isFavorite: boolean) => void
-}
+import type { IProductsLit } from "./types";
 
 export function ProductsList({ products, isFavorite, onFavorite }: IProductsLit) {
 

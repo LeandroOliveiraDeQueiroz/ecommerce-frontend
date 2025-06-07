@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import type { Route } from "./+types/home";
 import { PrivateRoute } from "~/components-hoc/privateRoute/privateRoute";
-import { Loading } from "~/components/loading/loading";
 import { useFavoriteProductListContext } from "~/contexts/favoriteProductsList/favoriteProductsList";
 import { FavoriteProductsList } from "~/pages/favoriteProductsList/favoriteProductList";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
@@ -10,6 +9,7 @@ import type { IProduct } from "~/types";
 import { useRevalidator, useSubmit } from "react-router";
 import { useSnackbar } from "notistack";
 import { isIServiceError } from "~/services/utils/utils";
+import { FavoriteProductsListShimmer } from "~/pages/favoriteProductsList/favoriteProductListShimmer";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -78,7 +78,8 @@ export const clientLoader = async ({ }: Route.ClientLoaderArgs) => {
 }
 
 export function HydrateFallback() {
-    return <Loading />;
+    return <FavoriteProductsListShimmer />
+        ;
 }
 
 export default function FavoriteProductsPage({ loaderData, actionData }: Route.ComponentProps) {

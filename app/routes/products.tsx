@@ -9,6 +9,7 @@ import { useSubmit } from "react-router";
 import favoriteProductsListService from "~/services/favoriteProductsList/favoriteProductsList";
 import { useSnackbar } from "notistack";
 import { isIServiceError } from "~/services/utils/utils";
+import { ProductsListShimmer } from "~/pages/productsList/productsListShimmer";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -96,7 +97,7 @@ export const clientLoader = async (): Promise<{ products: IProduct[], error?: bo
 }
 
 export function HydrateFallback() {
-  return <Loading />;
+  return <ProductsListShimmer />;
 }
 
 export default function Products({ loaderData, actionData }: Route.ComponentProps) {
