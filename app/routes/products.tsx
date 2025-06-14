@@ -81,7 +81,7 @@ async function deleteFavoriteProduct({ storedToken, productId }: IHandleIntentPa
   return { success: true, message: "Produto excluido com sucesso", method: "delete", productId: parserProductId }
 }
 
-export const clientLoader = async (): Promise<{ products: IProduct[], error?: boolean, message?: string }> => {
+export const loader = async (): Promise<{ products: IProduct[], error?: boolean, message?: string }> => {
   try {
     const response = await productService.getProducts();
     const products: IProduct[] = response.data;
